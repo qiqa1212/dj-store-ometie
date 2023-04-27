@@ -1,2 +1,2 @@
 # dj-store-youtube1
-https://www.youtube.com/watch?v=fp-rxTdyceo&amp;list=PLp5iSrXdKr9S0YsLhbmdxWnyyg_BLACkt&amp;index=1&amp;ab_channel=AndreyBaranov
+https://www.youtube.com/watch?v=I4rB4nAPC1k&list=PLz8SX0iNPyAIlXZYQT0oafz_ZxNCYjDGd&index=1&ab_channel=IT4eachcom
