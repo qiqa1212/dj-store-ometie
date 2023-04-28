@@ -26,12 +26,28 @@
                     <span class="navbar-toggler-icon"></span>
                   </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-muted" href="{% url 'shop:index' %}">Магазин</a>
-                        </li>
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link text-muted" href="{% url 'shop:index' %}">Магазин</a>
+                    </li>
+                  </ul>
+                  <div class="d-flex ms-auto">
+                    <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <span class="navbar-text text-light">Hello, {{ user.username }}</span>
+                          <li class="nav-item">
+                              <a class="nav-link text-muted" href="{% url 'auth:logout' %}">log out</a>
+                          </li>
+                      {% else %}
+                          <li class="nav-item">
+                              <a class="nav-link text-muted" href="{% url 'auth:login' %}">log in</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link text-muted" href="{% url 'auth:register' %}">Register</a>
+                          </li>
+                      {% endif %}  
                     </ul>
-                    
+                  </div>
                 </div>
             </div>
         </nav>

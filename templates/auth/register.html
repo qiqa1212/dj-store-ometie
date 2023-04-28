@@ -1,0 +1,24 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Register OneTime
+{% endblock title %}
+
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row " >
+        
+        <form class="" method="post" action="{% url 'auth:register' %}">
+            {% csrf_token %}
+            <div class="w-50 mx-auto mt-5">
+                <h1 class="mb-4">Register</h1>
+                {{ form|crispy }}
+                <button  class="btn btn-dark" name="submit">register</button>
+            </div>        
+            <input type="hidden" name="next" value="{% url 'shop:index' %}" />
+         </form>
+    </div>
+    
+{% endblock content %}
