@@ -8,16 +8,20 @@ Register OneTime
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="row " >
+    <div class="row " style="height: 50em; width: 100%;">
         
         <form class="" method="post" action="{% url 'auth:register' %}">
             {% csrf_token %}
-            <div class="w-50 mx-auto mt-5">
-                <h1 class="mb-4">Register</h1>
+            <div class="w-25 mx-auto mt-5">
+                <h1 class="text-center pb-5">Register</h1>
                 {{ form|crispy }}
-                <button  class="btn btn-dark" name="submit">register</button>
+                <div class="pt-3 d-flex flex-row-reverse">
+                    <button   class="btn btn-dark " name="submit">register</button>
+                    <input type="hidden" name="next" value="{% url 'shop:index' %}" />
+                </div>
+                
             </div>        
-            <input type="hidden" name="next" value="{% url 'shop:index' %}" />
+            
          </form>
     </div>
     
