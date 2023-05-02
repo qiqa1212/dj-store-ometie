@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import requests
 import re
 from decimal import Decimal
+
+from shop.models import Product
 # Добавьте путь к вашей папке проекта
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
@@ -21,50 +23,82 @@ from main.settings import URL_SCRAPING_DOMAIN, URL_SCRAPING
  }
 
 """
+
+class ScrapingError(Exception):
+    pass
+
+
+class ScrapingTimeoutError(ScrapingError):
+    pass
+
+
+class ScrapingHTTPError(ScrapingError):
+    pass
+
+
+class ScrapingOtherError(ScrapingError):
+    pass
+
+
+
+
 def scraping():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
-    resp = requests.get(URL_SCRAPING, headers=headers, timeout=40.0)
+    try:
+        resp = requests.get(URL_SCRAPING, headers=headers, timeout=40.0)
+    except requests.exceptions.Timeout:
+        raise ScrapingTimeoutError("request timed out")
+    except Exception as e:
+        raise ScrapingOtherError(f'{e}')
     if resp.status_code != 200:
-        raise Exception('HTTP error access!')
+        raise ScrapingHTTPError(f"HTTP {resp.status_code}: {resp.text}")
 
     data_list = []
-    html = resp.text
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    blocks = soup.select('.product-list1')
+    for i in range(0, 30, 3):
+        for block in blocks[i:i+3]:
+            data = {}
 
-    soup = BeautifulSoup(html, 'html.parser')
-    soup = BeautifulSoup(html, 'html.parser')
-    blocks = soup.select('.product-list1 ')
+            try:
+                name = block.select_one('.text-dark').get_text(strip=True)
+                data['name'] = name
 
-    for block in blocks:
-        data = {}
-        
-        name = block.select_one('.text-dark').get_text().strip()
-        data['name'] = name
+                image_url = URL_SCRAPING_DOMAIN + block.select_one('img')['src']
+                data['image_url'] = image_url
 
-        image_url = URL_SCRAPING_DOMAIN + block.select_one('img')['src']
-        data['image_url'] = image_url
+                price_raw = block.select_one('.price').text.strip().split()[0]
+                price = Decimal(price_raw)
+                data['price'] = price
 
-        price_raw = block.select_one('.price').text
-        number_string = price_raw.strip().split()[0]  # удаление пробелов и выбор первого слова
-        price = int(number_string)
-        price = Decimal(price)
-        data['price'] = price   # 150
+                url_detail = block.select_one('.text-dark')['href']
+                html_detail = requests.get(url_detail, headers=headers, timeout=60.0).text
+                soup = BeautifulSoup(html_detail, 'html.parser')
+                body = soup.body
+                code = body['class'][0]
+                code = int(code.split('-')[2])
+                data['code'] = code
 
-        url_detail = block.select_one('.text-dark')
-        # <a class="text-dark" href="xxxxx">
+                data_list.append(data)
+                
 
-        url_detail = url_detail['href']
-        # 'xxxx'
-        
-        html_detail = requests.get(url_detail, 'html.parser', headers=headers).text
-        soup = BeautifulSoup(html_detail, 'html.parser')
-        body = soup.body
-        code = body['class'][0]
-        code = int(code.split('-')[2])
-        data['code'] = code
+            except Exception as e:
+                print(f"Error occurred: {e}")
+                continue
+            
+        print(len(data_list))
 
-        data_list.append(data)
-    print(data_list)
+        for item in data_list:
+            if not Product.objects.filter(code=item['code']).exists():
+                Product.objects.create(
+                    name=item['name'],
+                    code=item['code'],
+                    price=item['price'],
+                    image_url=item['image_url'],
+                )
+
+            return data_list
         
 
 
