@@ -11,7 +11,6 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='product_name')
     code = models.CharField(max_length=255, verbose_name='product_code')
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    unit = models.CharField(max_length=255, blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
 

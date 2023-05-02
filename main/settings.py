@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
 ]
 
+
+#
+URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
+
+URL_SCRAPING_DOMAIN= 'https://vapelife.com.ua/'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
