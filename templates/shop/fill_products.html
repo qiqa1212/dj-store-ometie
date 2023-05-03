@@ -1,0 +1,28 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Fill products
+{% endblock title %}
+
+{% block content %}
+<div class="container" style="height: 50em; width: 100%;">
+    <div class="text-center py-5">
+        <h1>Додати продукти</h1>
+        <form action="{% url 'shop:fill_database' %}" method="post">
+            {% csrf_token %}
+            <button type="button" class="btn btn-dark mt-5">Запустити скрепінг </button>
+
+        </form>
+        {% if message %}
+            <div class="container pt-5">
+                <h2 >Errors of scraping<br><br>
+                    <span style="color:red">{{ message }}</span>
+
+                </h2>
+
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

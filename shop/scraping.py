@@ -5,7 +5,9 @@ import requests
 import re
 from decimal import Decimal
 
-from shop.models import Product
+from .models import Product
+
+
 # Добавьте путь к вашей папке проекта
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
@@ -18,7 +20,6 @@ from main.settings import URL_SCRAPING_DOMAIN, URL_SCRAPING
     'name': 'Одноразовая Pod система Joyetech VAAL 1500 Pineapple Ice 50 мг 1100 мАч', 
     'image_url': 'https://vapelife.com.ua/image/cache/catalog/pod-sistemu/joyetech-vaal-1500-disposable-pod/xjoyetech-vaal-1500-pineapple-ice-50mg-1100mah-200x200.jpg.pagespeed.ic.0GYgJICOdx.webp', 
     'price': Decimal('150.00'), 
-    'unit': 'за шт', 
     'code': '38140012'
  }
 
@@ -46,11 +47,12 @@ def scraping():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
     try:
-        resp = requests.get(URL_SCRAPING, headers=headers, timeout=40.0)
+        resp = requests.get(URL_SCRAPING, headers=headers, timeout=10.0)
     except requests.exceptions.Timeout:
         raise ScrapingTimeoutError("request timed out")
     except Exception as e:
         raise ScrapingOtherError(f'{e}')
+    
     if resp.status_code != 200:
         raise ScrapingHTTPError(f"HTTP {resp.status_code}: {resp.text}")
 
@@ -79,7 +81,7 @@ def scraping():
                 code = body['class'][0]
                 code = int(code.split('-')[2])
                 data['code'] = code
-
+                print(data)
                 data_list.append(data)
                 
 

@@ -5,5 +5,6 @@ app_name = 'shop'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('fill-database/', views.fill_database, name='fill_database')
 ]
 
