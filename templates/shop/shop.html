@@ -15,7 +15,7 @@ Shop
         {% for product in object_list %} 
             <div class="col item">
                 
-                    <div class="card mb-3 " style="width: 17rem; height: 39rem; ">
+                    <div class="card mb-3 " style="width: 17rem; height: 40rem; ">
                         <div class="" style="margin: auto;">
                             <form method="post" action="{% url 'shop:add_item_to_cart' product.pk %}">
                                 
@@ -39,7 +39,11 @@ Shop
                                 </ul>
                                 <div class="card-body d-flex justify-content-between">
                                     <div class="">
-                                        <button class="btn btn-dark " type="submit">buy now</button>
+                                        {% if user.is_authenticated %}
+                                            <button class="btn btn-dark " type="submit">buy now</button>
+                                        {% else %}
+                                            <a class="btn btn-dark " href="{% url 'auth:login' %}">buy now</a>
+                                        {% endif %}
                                         
 										
                                     </div>

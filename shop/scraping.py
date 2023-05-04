@@ -6,7 +6,7 @@ from decimal import Decimal
 from shop.models import Product
 
 # Добавьте путь к вашей папке проекта
-URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
+URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/?page=2'
 URL_SCRAPING_DOMAIN= 'https://vapelife.com.ua/'
 
 """
