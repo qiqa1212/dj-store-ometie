@@ -5,5 +5,72 @@ Cart
 {% endblock title %}
 
 {% block content %}
-
+<div class="container" style="min-height: 48em;;">
+    <div class="text-center py-5">
+        <h1>Корзина</h1>
+    </div>
+    <div class="row border-bottom pb-4">
+        <div class="col-12 col-md-1 item">
+            &nbsp;&nbsp;&nbsp; №
+        </div>
+        <div class="col-12 col-md-4 item">
+            Назва
+        </div>
+        <div class="col-12 col-md-2 item">
+            Кількість
+        </div>
+        <div class="col-12 col-md-2 item">
+            Ціна
+        </div>
+        <div class="col-12 col-md-2 item">
+            сума
+        </div>
+        <div class="col-12 col-md-1 item">
+        </div>
+    </div>
+    <div class=""></div>
+    {% for item in items %}
+    <div class="row pt-4">
+        <div class="col-12 col-md-1 item">
+            &nbsp;&nbsp;&nbsp;{{ forloop.counter }}
+        </div>
+        <div class="col-12 col-md-4 item">
+            {{ item.product }}
+        </div>
+        <div class="col-12 col-md-2 item">
+            {{ item.quantity }}
+        </div>
+        <div class="col-12 col-md-2 item">
+            {{ item.price }}
+        </div>
+        <div class="col-12 col-md-2 item">
+            {{ item.amount }}
+        </div>
+        <div class="col-12 col-md-1 item">
+            <form method="post" action="{% url 'shop:cart_delete_item' item.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark">delete</button>
+            </form>
+        </div>
+    </div>
+    
+{% endfor %}
+    
+    <div class="row border-top mt-4 ">
+        <div class="col-12 col-md-7 item mt-4">
+        </div>
+        <div class="col-12 col-md-2 item mt-4"> 
+            Всього:
+        </div>
+        <div class="col-12 col-md-2 item mt-4">
+            {{ cart.amount }}
+        </div>
+    </div>
+    <div class="pt-5 text-center">
+        <a class="btn btn-dark " href="{% url 'shop:make_order' %}">
+            Оплатити
+        </a>
+    </div>
+    <br><br><br><br><br>
+</div> 
 {% endblock content %}

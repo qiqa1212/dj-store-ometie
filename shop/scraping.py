@@ -54,7 +54,7 @@ def scraping():
                 name = block.select_one('.text-dark').get_text(strip=True)
                 data['name'] = name
 
-                image_url = URL_SCRAPING_DOMAIN + block.select_one('img')['src']
+                image_url = block.select_one('img')['src']
                 data['image_url'] = image_url
 
                 price_raw = block.select_one('.price').text.strip().split()[0]

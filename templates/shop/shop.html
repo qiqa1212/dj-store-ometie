@@ -4,9 +4,55 @@
 Shop
 {% endblock title %}
 
-
-
+{% load static %}
 
 {% block content %}
-
+<div class="container">
+    <div class="text-center py-5">
+        <h1>Магазин OneTime</h1>
+    </div>
+    <div class="row">
+        {% for product in object_list %} 
+            <div class="col item">
+                
+                    <div class="card mb-3 " style="width: 17rem; height: 39rem; ">
+                        <div class="" style="margin: auto;">
+                            <form method="post" action="{% url 'shop:add_item_to_cart' product.pk %}">
+                                
+                                {% csrf_token %}
+                                <img src="{{ product.image_url }}" onerror="this.onerror=null; this.src=`{% static 'img/not_f.png' %}`" class="card-img-top" alt="Изображение продукта {{ product.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title  text-center"><b>{{ product.name}}</b></h5>
+                                </div>
+                                
+                                <ul class="list-group list-group-flush">
+                                    
+                                    <li class="list-group-item text-center">{{ product.price }}</li>
+                                    
+                                    <li class="list-group-item">
+                                        <label class="form-label" for="id_quantity">Quantity:</label>
+                                        <input class="form-control" type="number" name="quantity" value="1" min="1" required id="id_quantity"/>
+                                    </li>
+                                    
+                                    <li class="list-group-item">  
+                                    </li>
+                                </ul>
+                                <div class="card-body d-flex justify-content-between">
+                                    <div class="">
+                                        <button class="btn btn-dark " type="submit">buy now</button>
+                                        
+										
+                                    </div>
+                                    <br><br>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                
+            </div>
+        {% endfor %}
+    </div>
+    
+</div> 
 {% endblock content %}
