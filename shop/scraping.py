@@ -1,19 +1,13 @@
-import os
-import sys
-from bs4 import BeautifulSoup
 import requests
-import re
+from django.db import models, transaction
+from bs4 import BeautifulSoup
 from decimal import Decimal
 
-from .models import Product
-
+from shop.models import Product
 
 # Добавьте путь к вашей папке проекта
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
-from main.settings import URL_SCRAPING_DOMAIN, URL_SCRAPING
-
-#product-list1
+URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
+URL_SCRAPING_DOMAIN= 'https://vapelife.com.ua/'
 
 """
 {
@@ -21,33 +15,26 @@ from main.settings import URL_SCRAPING_DOMAIN, URL_SCRAPING
     'image_url': 'https://vapelife.com.ua/image/cache/catalog/pod-sistemu/joyetech-vaal-1500-disposable-pod/xjoyetech-vaal-1500-pineapple-ice-50mg-1100mah-200x200.jpg.pagespeed.ic.0GYgJICOdx.webp', 
     'price': Decimal('150.00'), 
     'code': '38140012'
- }
-
+}
 """
 
 class ScrapingError(Exception):
     pass
 
-
 class ScrapingTimeoutError(ScrapingError):
     pass
-
 
 class ScrapingHTTPError(ScrapingError):
     pass
 
-
 class ScrapingOtherError(ScrapingError):
     pass
-
-
-
-
+data_list = []
 def scraping():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-    URL_SCRAPING = 'https://vapelife.com.ua/odnorazovye-pod-sistemy/'
+    
     try:
-        resp = requests.get(URL_SCRAPING, headers=headers, timeout=10.0)
+        resp = requests.get(URL_SCRAPING, headers=headers, timeout=40.0)
     except requests.exceptions.Timeout:
         raise ScrapingTimeoutError("request timed out")
     except Exception as e:
@@ -56,13 +43,13 @@ def scraping():
     if resp.status_code != 200:
         raise ScrapingHTTPError(f"HTTP {resp.status_code}: {resp.text}")
 
-    data_list = []
+    
     soup = BeautifulSoup(resp.text, 'html.parser')
     blocks = soup.select('.product-list1')
     for i in range(0, 30, 3):
         for block in blocks[i:i+3]:
+            print(len(data_list)+1)
             data = {}
-
             try:
                 name = block.select_one('.text-dark').get_text(strip=True)
                 data['name'] = name
@@ -83,27 +70,20 @@ def scraping():
                 data['code'] = code
                 print(data)
                 data_list.append(data)
-                
-
+                for item in data_list:
+                    if not Product.objects.filter(code=item['code']).exists():
+                        Product.objects.create(
+                            name=item['name'],
+                            code=item['code'],
+                            price=item['price'],
+                            image_url=item['image_url'],
+                            )
+                    
+            
             except Exception as e:
                 print(f"Error occurred: {e}")
+                
                 continue
             
-        print(len(data_list))
-
-        for item in data_list:
-            if not Product.objects.filter(code=item['code']).exists():
-                Product.objects.create(
-                    name=item['name'],
-                    code=item['code'],
-                    price=item['price'],
-                    image_url=item['image_url'],
-                )
-
-            return data_list
-        
-
-
-
 if __name__ == '__main__':
     scraping()

@@ -10,7 +10,7 @@ Fill products
         <h1>Додати продукти</h1>
         <form action="{% url 'shop:fill_database' %}" method="post">
             {% csrf_token %}
-            <button type="button" class="btn btn-dark mt-5">Запустити скрепінг </button>
+            <button type="submit" class="btn btn-dark mt-5">Запустити скрепінг </button>
 
         </form>
         {% if message %}

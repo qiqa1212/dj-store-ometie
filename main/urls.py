@@ -21,7 +21,8 @@ from . import views
 urlpatterns = [
     
     path('admin/', admin.site.urls),
-    path('', include('shop.urls')),
-    path('shop/', include('shop.urls')),
+    path('', views.index, name='index'),
     path('auth/', include('authentication.urls' , namespace='auth')),
+    path('shop/', include('shop.urls')),
+    
 ]

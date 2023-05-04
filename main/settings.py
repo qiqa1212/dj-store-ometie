@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # ---- my apps ----
-    'shop',
+    'shop.apps.ShopConfig',
     'authentication',
     'crispy_forms',
     'crispy_bootstrap4',
+    #'beautifulsoup4',
+    #'requests'
 ]
 
 
