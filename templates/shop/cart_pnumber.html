@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Add number
+{% endblock title %}
+
+{% block content %}
+<div class="container" style="min-height: 48em;">
+    <h1 class="py-5 text-center">Додайти свій номер та чекайте дзвінка від нашого менеджера</h1>
+    <form method="post" action="{% url 'auth:login' %}" class="m-5 pt-5 w-25 col-md-8 mx-auto">
+        
+        {% csrf_token %}
+        <label for="num">Ваш номер телефона</label>
+        <input id="num" class="form-control" type="text"  />
+        <p class="text-muted">приклад номера 0951212325</p>
+        <a class="btn btn-dark" href="{% url 'shop:make_order' %}"> Надіслати номер</a>
+    </form>
+
+</div>
+
+{% endblock content %}

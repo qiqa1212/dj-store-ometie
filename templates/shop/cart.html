@@ -5,7 +5,7 @@ Cart
 {% endblock title %}
 
 {% block content %}
-<div class="container" style="min-height: 48em;;">
+<div class="container" style="min-height: 48em;">
     <div class="text-center py-5">
         <h1>Корзина</h1>
     </div>
@@ -67,7 +67,7 @@ Cart
         </div>
     </div>
     <div class="pt-5 text-center">
-        <a class="btn btn-dark " href="{% url 'shop:make_order' %}">
+        <a class="btn btn-dark " href="{% url 'shop:cart_pnumber' %}">
             Оплатити
         </a>
     </div>
