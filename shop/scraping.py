@@ -1,5 +1,4 @@
 import requests
-from django.db import models, transaction
 from bs4 import BeautifulSoup
 from decimal import Decimal
 
