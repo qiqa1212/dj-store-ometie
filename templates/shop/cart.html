@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-Cart
+Кошик
 {% endblock title %}
 
 {% block content %}
@@ -23,7 +23,7 @@ Cart
             Ціна
         </div>
         <div class="col-12 col-md-2 item">
-            сума
+            Сума
         </div>
         <div class="col-12 col-md-1 item">
         </div>
@@ -49,7 +49,7 @@ Cart
         <div class="col-12 col-md-1 item">
             <form method="post" action="{% url 'shop:cart_delete_item' item.pk %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-dark">delete</button>
+                <button type="submit" class="btn btn-dark">Видалити</button>
             </form>
         </div>
     </div>

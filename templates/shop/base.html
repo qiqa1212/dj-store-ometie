@@ -40,17 +40,17 @@
                     <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                           <li class="nav-item">
-                              <a class="nav-link text-muted" href="{% url 'auth:logout' %}">log out</a>
+                              <a class="nav-link text-muted" href="{% url 'auth:logout' %}">Вийти</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link text-warning" href="{% url 'shop:cart_view' %}">Корзина {{ user.username }}</a>
                           </li>
                       {% else %}
                           <li class="nav-item">
-                              <a class="nav-link text-muted" href="{% url 'auth:login' %}">log in</a>
+                              <a class="nav-link text-muted" href="{% url 'auth:login' %}">Увійти</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link text-muted" href="{% url 'auth:register' %}">Register</a>
+                              <a class="nav-link text-muted" href="{% url 'auth:register' %}">Реєстрація</a>
                           </li>
                       {% endif %}  
                     </ul>
@@ -73,7 +73,7 @@
                     <!--Grid column-->
                     <div class="col-auto">
                       <p class="pt-2">
-                        <strong>Sign up for our newsletter</strong>
+                        <strong>Додайти свою пошту для прийняті участі в конкурсі</strong>
                       </p>
                     </div>
                     <!--Grid column-->
@@ -83,7 +83,7 @@
                       <!-- Email input -->
                       <div class="form-outline form-white mb-4">
                         <input type="email" id="form5Example29" class="form-control" />
-                        <label class="form-label" for="form5Example29">Email address</label>
+                        <label class="form-label" for="form5Example29">Пошта</label>
                       </div>
                     </div>
                     <!--Grid column-->
@@ -92,7 +92,7 @@
                     <div class="col-auto">
                       <!-- Submit button -->
                       <button type="submit" class="btn btn-outline-light mb-4">
-                        Subscribe
+                        Прийняти участь
                       </button>
                     </div>
                     <!--Grid column-->

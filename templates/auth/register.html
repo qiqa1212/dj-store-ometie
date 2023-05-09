@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-Register OneTime
+Реєстрація OneTime
 {% endblock title %}
 
 
@@ -13,10 +13,10 @@ Register OneTime
         <form class="" method="post" action="{% url 'auth:register' %}">
             {% csrf_token %}
             <div class="w-25 mx-auto mt-5">
-                <h1 class="text-center pb-5">Register</h1>
+                <h1 class="text-center pb-5">Реєстрація</h1>
                 {{ form|crispy }}
                 <div class="pt-3 d-flex flex-row-reverse">
-                    <button   class="btn btn-dark " name="submit">register</button>
+                    <button   class="btn btn-dark " name="submit">Зареєструватися</button>
                     <input type="hidden" name="next" value="{% url 'index' %}" />
                 </div>
                 

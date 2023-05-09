@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-Login OneTime
+Увійти OneTime
 {% endblock title %}
 
 
@@ -15,7 +15,7 @@ Login OneTime
     <div class="row" style="height: 50em; width: 100%;">
         
         <form method="post" action="{% url 'auth:login' %}" class="m-5 pt-5 w-25 col-md-8 mx-auto">
-            <h1 class="text-center pb-5">Log in</h1>
+            <h1 class="text-center pb-5">Увійти</h1>
             {% csrf_token %}
             <div class="">
                 {% crispy login_form %}
@@ -23,7 +23,7 @@ Login OneTime
                 
                 
                 <div class="pt-3 d-flex flex-row-reverse">
-                    <button type="submit" class="btn btn-dark">log in</button>
+                    <button type="submit" class="btn btn-dark">Увійти</button>
                     <input type="hidden" name="next" value="{% url 'index' %}">
                 </div>
                 
